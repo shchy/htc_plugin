@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	mp "github.com/mackerelio/go-mackerel-plugin"
@@ -192,9 +193,9 @@ func (p Plugin) FetchMetrics() (map[string]float64, error) {
 
 func (p Plugin) do() {
 
-	optHost := flag.String("host", "", "Api Host")
-	optUserID := flag.String("userid", "", "User ID")
-	optPassword := flag.String("password", "", "Password")
+	optHost := flag.String("host", os.Getenv("host"), "Api Host")
+	optUserID := flag.String("userid", os.Getenv("userid"), "User ID")
+	optPassword := flag.String("password", os.Getenv("password"), "Password")
 	optTempfile := flag.String("tempfile", "", "Temp file name")
 	flag.Parse()
 
@@ -204,6 +205,5 @@ func (p Plugin) do() {
 
 	helper := mp.NewMackerelPlugin(p)
 	helper.Tempfile = *optTempfile
-
 	helper.Run()
 }
