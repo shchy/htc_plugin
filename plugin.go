@@ -75,7 +75,7 @@ type driveInfo struct {
 
 var graphdef = map[string]mp.Graphs{
 	"hitachi.drive.status.#": {
-		Label: "Drive Status",
+		Label: "Drive ステータス",
 		Unit:  "integer",
 		Metrics: []mp.Metrics{
 			{Name: nml.toString(), Label: "Normal"},
@@ -89,7 +89,7 @@ var graphdef = map[string]mp.Graphs{
 		},
 	},
 	"hitachi.drive.used.#": {
-		Label: "Drive used Endurance Indicator(%)",
+		Label: "劣化度(%) ※SSDのみ",
 		Unit:  "integer",
 		Metrics: []mp.Metrics{
 			{Name: "used", Label: "Used"},
