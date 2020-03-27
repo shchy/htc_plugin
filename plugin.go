@@ -1,7 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
+	"fmt"
+	"log"
+	"net/http"
 	"strings"
 
 	mp "github.com/mackerelio/go-mackerel-plugin"
@@ -23,23 +27,42 @@ const (
 func (s driveStatus) toString() string {
 	switch s {
 	case nml:
-		return "nml"
+		return "NML"
 	case war:
-		return "war"
+		return "WAR"
 	case cpy:
-		return "cpy"
+		return "CPY"
 	case cpi:
-		return "cpi"
+		return "CPI"
 	case rsv:
-		return "rsv"
+		return "RSV"
 	case fai:
-		return "fai"
+		return "FAI"
 	case blk:
-		return "blk"
-	case unknown:
-		fallthrough
+		return "BLK"
 	default:
-		return "unknown"
+		return "Unknown"
+	}
+}
+
+func fromString(v string) driveStatus {
+	switch v {
+	case "NML":
+		return nml
+	case "WAR":
+		return war
+	case "CPY":
+		return cpy
+	case "CPI":
+		return cpi
+	case "RSV":
+		return rsv
+	case "FAI":
+		return fai
+	case "BLK":
+		return blk
+	default:
+		return unknown
 	}
 }
 
@@ -80,24 +103,50 @@ type Plugin struct {
 	Password string
 }
 
-func getDrives() ([]driveInfo, error) {
-	// TODO HTTP
-	infos := []driveInfo{
-		driveInfo{
-			serialNumber:           "asdf",
-			status:                 nml,
-			usedEnduranceIndicator: 0,
-		},
-		driveInfo{
-			serialNumber:           "qwer",
-			status:                 fai,
-			usedEnduranceIndicator: 10,
-		},
-		driveInfo{
-			serialNumber:           "zxcv",
-			status:                 cpi,
-			usedEnduranceIndicator: 99,
-		},
+func getDrives(host string, id string, pass string) ([]driveInfo, error) {
+	url := fmt.Sprintf("http://%s/ConfigurationManager/v1/objects/drives?detailInfoType=usedEnduranceIndicator", host)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+	req.SetBasicAuth(id, pass)
+
+	// リクエストの送信
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer resp.Body.Close()
+
+	var data map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	drives := data["data"].([]interface{})
+	infos := make([]driveInfo, len(drives))
+	for i, drive := range drives {
+		driveMap := drive.(map[string]interface{})
+
+		status := driveMap["status"].(string)
+		id := driveMap["serialNumber"].(string)
+		ind := 0
+
+		if v, ok := driveMap["usedEnduranceIndicator"]; ok {
+			ind = int(v.(float64))
+		}
+
+		infos[i] = driveInfo{
+			usedEnduranceIndicator: ind,
+			serialNumber:           id,
+			status:                 fromString(status),
+		}
 	}
 	return infos, nil
 }
@@ -123,7 +172,7 @@ func getMetric(graphKey string, metric mp.Metrics, info driveInfo) float64 {
 func (p Plugin) FetchMetrics() (map[string]float64, error) {
 	stat := make(map[string]float64)
 
-	infos, err := getDrives()
+	infos, err := getDrives(p.Host, p.UserID, p.Password)
 	if err != nil {
 		return nil, err
 	}
@@ -143,11 +192,15 @@ func (p Plugin) FetchMetrics() (map[string]float64, error) {
 
 func (p Plugin) do() {
 
-	// optRegion := flag.String("region", "", "AWS Region")
-	// optAccessKeyID := flag.String("access-key-id", "", "AWS Access Key ID")
-	// optSecretAccessKey := flag.String("secret-access-key", "", "AWS Secret Access Key")
+	optHost := flag.String("host", "", "Api Host")
+	optUserID := flag.String("userid", "", "User ID")
+	optPassword := flag.String("password", "", "Password")
 	optTempfile := flag.String("tempfile", "", "Temp file name")
 	flag.Parse()
+
+	p.Host = *optHost
+	p.UserID = *optUserID
+	p.Password = *optPassword
 
 	helper := mp.NewMackerelPlugin(p)
 	helper.Tempfile = *optTempfile

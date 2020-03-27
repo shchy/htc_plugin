@@ -1,0 +1,149 @@
+{
+	"ConfigurationManager1": {
+		"data": [
+			{
+				"driveLocationId": "4-0",
+				"driveTypeName": "SSD(FMC)",
+				"totalCapacity": 1600,
+				"driveType": "NFHAE-Q1R6SS",
+				"usageType": "DATA",
+				"status": "NML",
+				"parityGroupId": "3-1",
+				"serialNumber": "12345670",
+				"usedEnduranceIndicator": 0,
+				"usedEnduranceIndicatorThreshold": 99,
+				"usedEnduranceIndicatorWarningSIM": 95
+			},
+			{
+				"driveLocationId": "4-1",
+				"driveTypeName": "SSD(FMC)",
+				"totalCapacity": 1600,
+				"driveType": "NFHAE-Q1R6SS",
+				"usageType": "DATA",
+				"status": "WAR",
+				"parityGroupId": "3-1",
+				"serialNumber": "12345671",
+				"usedEnduranceIndicator": 10,
+				"usedEnduranceIndicatorThreshold": 99,
+				"usedEnduranceIndicatorWarningSIM": 95
+			},
+			{
+				"driveLocationId": "4-2",
+				"driveTypeName": "SSD(FMC)",
+				"totalCapacity": 1600,
+				"driveType": "NFHAE-Q1R6SS",
+				"usageType": "DATA",
+				"status": "CPY",
+				"parityGroupId": "3-1",
+				"serialNumber": "12345672",
+				"usedEnduranceIndicator": 50,
+				"usedEnduranceIndicatorThreshold": 99,
+				"usedEnduranceIndicatorWarningSIM": 95
+			},
+			{
+				"driveLocationId": "4-2",
+				"driveTypeName": "SSD(FMC)",
+				"totalCapacity": 1600,
+				"driveType": "NFHAE-Q1R6SS",
+				"usageType": "DATA",
+				"status": "NML",
+				"parityGroupId": "3-1",
+				"serialNumber": "99999999"
+			}
+		]
+	},
+	"ConfigurationManager2": {
+		"data": [
+			{
+				"alertIndex": "133ed620e449-0f0c9-7d0700",
+				"alertId": 61641,
+				"occurenceTime": "2018-03-22T16:14:01",
+				"referenceCode": 8193792,
+				"errorLevel": "Service",
+				"errorSection": "GUM detection error",
+				"errorDetail": "GUM security error detected",
+				"location": "CTL1",
+				"actionCodes": [
+					{
+						"actionCode": 1492123648,
+						"possibleFailureParts": "TSC CALL",
+						"accLocation": "-"
+					}
+				]
+			},
+			{
+				"alertIndex": "133ed620a156-0f0c6-7d0700",
+				"alertId": 61638,
+				"occurenceTime": "2018-03-22T11:28:22",
+				"referenceCode": 8193792,
+				"errorLevel": "Moderate",
+				"errorSection": "GUM detection error",
+				"errorDetail": "GUM security error detected",
+				"location": "CTL1",
+				"actionCodes": [
+					{
+						"actionCode": 1492123648,
+						"possibleFailureParts": "TSC CALL",
+						"accLocation": "-"
+					}
+				]
+			},
+			{
+				"alertIndex": "133ed6011907-0f0c3-7d0700",
+				"alertId": 61635,
+				"occurenceTime": "2018-03-20T19:59:03",
+				"referenceCode": 8193792,
+				"errorLevel": "Acute",
+				"errorSection": "GUM detection error",
+				"errorDetail": "GUM security error detected",
+				"location": "CTL1",
+				"actionCodes": [
+					{
+						"actionCode": 1492123648,
+						"possibleFailureParts": "TSC CALL",
+						"accLocation": "-"
+					}
+				]
+			},
+			{
+				"alertIndex": "133ed601164f-0f0bd-7d0700",
+				"alertId": 61629,
+				"occurenceTime": "2018-03-20T19:47:27",
+				"referenceCode": 8193792,
+				"errorLevel": "Serious",
+				"errorSection": "GUM detection error",
+				"errorDetail": "GUM security error detected",
+				"location": "CTL1",
+				"actionCodes": [
+					{
+						"actionCode": 1492123648,
+						"possibleFailureParts": "TSC CALL",
+						"accLocation": "-"
+					},
+					{
+						"actionCode": 1492123649,
+						"possibleFailureParts": "TSC CALL2",
+						"accLocation": "test"
+					}
+				]
+			},
+			{
+				"alertIndex": "133ed601164f-0f0bd-7d0700",
+				"alertId": 61611,
+				"occurenceTime": "2018-03-20T19:41:27",
+				"referenceCode": 8193792,
+				"errorLevel": "Serious",
+				"errorSection": "GUM detection error",
+				"errorDetail": "GUM security error detected",
+				"location": "CTL1",
+				"actionCodes": [
+					{
+						"actionCode": 1492123648,
+						"possibleFailureParts": "TSC CALL",
+						"accLocation": "-"
+					}
+				]
+			}
+		]
+	}
+}
